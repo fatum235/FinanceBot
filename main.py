@@ -55,6 +55,7 @@ async def start_command(update, context):
         [InlineKeyboardButton("Отправить совет по финансововй грамотности", callback_data="advice")],
         [InlineKeyboardButton("Расчеты по кредиту", callback_data="loan_calculation")],
     ]
+
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
         "Доброго времени суток, я — бот-помощник по финансовой грамотности.\nЧто вы хотите сделать?",
