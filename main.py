@@ -7,7 +7,7 @@ from datetime import date
 
 TOKEN = '7376461438:AAFbawDNREONCnoCxxdQ6Wmkbqg6ewQmrgI'
 id_adm = 1918076606
-email = 'support@example.com'
+email = 'fnnce_support@gmail.com'
 tgk = "@fnnce_advcs"
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -21,8 +21,9 @@ list_of_currencies = ["USD", "EUR", "GBP", "JPY", "CNY", "KZT", "TRY", "CHF", "A
 cb_link = 'https://www.cbr-xml-daily.ru/daily_json.js'
 
 
-def calculate_deposit(initial_sum, interest_rate, years):
-    return round(float(initial_sum) * (1 + float(interest_rate) / 100) ** float(years), 2)
+def calculate_deposit(initial_sum, interest_rate, years, days=365):
+    day = years * days
+    return round((float(initial_sum) * interest_rate * day) / (days * 100), 2)
 
 
 def an_debt(summ_of_debt, percent, duration):
@@ -40,7 +41,7 @@ def diff_total_payment(summ_of_debt, percent, duration):
     monthly_percent = percent / 12 / 100
     total_payment = 0
     balance = summ_of_debt
-    for _ in range(int(months)):
+    for i in range(int(months)):
         payment_body = balance / months
         payment_interest = balance * monthly_percent
         total_payment += payment_body + payment_interest
@@ -64,7 +65,10 @@ async def start_command(update, context):
 
 
 async def help(update, context):
-    await update.message.reply_text("Помощь доступна!")
+    await update.message.reply_text(
+        "В функции расчета кредита и вклада надо вводить именно числа через одиночный пробел. \n В курсе валют "
+        "необходимо ввести код валюты(RUB, USD). /n Список всех доступных в этом боте валют: USD, EUR, GBP, JPY, CNY, "
+        "KZT, TRY, CHF, AUD, AZN, AMD, THB, BYN, BGN, BRL, KRW, HKD, UAH, DKK, AED, VND, EGP, PLN, INR, RUB")
 
 
 async def button_callback(update, context):
@@ -213,10 +217,10 @@ async def process_loan_details(update, context):
 
         await update.message.reply_text(
             f"Аннуитетный платеж:\n"
-            f"- Ежемесячный платеж: {annuity_monthly} ₽\n"
-            f"- Итоговая сумма: {annuity_total} ₽\n\n"
+            f"  Ежемесячный платеж: {annuity_monthly} ₽\n"
+            f"  Итоговая сумма: {annuity_total} ₽\n\n"
             f"Дифференцированный платеж:\n"
-            f"- Итоговая сумма: {diff_total} ₽"
+            f"  Итоговая сумма: {diff_total} ₽"
         )
     except ValueError:
         await update.message.reply_text("Ошибка: убедитесь, что ввели числа корректно.")
@@ -225,13 +229,10 @@ async def process_loan_details(update, context):
 
 async def process_advice(update, context):
     advice = update.message.text.strip()
-    username = update.message.from_user.username
-    first_name = update.message.from_user.first_name
 
     formatted_post = (
         f"<b>✨ Советы по финансовой грамотности ✨</b>\n\n"
         f"{advice}\n\n"
-        f"🔍 Автор: {username}, имя: {first_name}\n"
     )
 
     await context.bot.send_message(chat_id=tgk, text=formatted_post, parse_mode="HTML")
