@@ -5,7 +5,7 @@ from telegram.ext import (Application, CommandHandler, MessageHandler, filters, 
 import requests
 from datetime import date
 
-TOKEN = '7879977417:AAH5yiiIT380CHZNLM8qA_oBtHg1A3lW2F0'
+TOKEN = 'token_of_bot'
 id_adm = 1918076606
 email = 'fnnce_support@gmail.com'
 tgk = "@fnnce_advcs"
