@@ -14,10 +14,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 f_currency, s_currency, dep, feedback, adv, debts = range(6)
-
 list_of_currencies = ["USD", "EUR", "GBP", "JPY", "CNY", "KZT", "TRY", "CHF", "AUD", "AZN", "AMD", "THB", "BYN",
                        "BGN", "BRL", "KRW", "HKD", "UAH", "DKK", "AED", "VND", "EGP", "PLN", "INR", "RUB"]
-
 cb_link = 'https://www.cbr-xml-daily.ru/daily_json.js'
 
 
